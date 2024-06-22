@@ -7,8 +7,8 @@ import com.alexkekiy.server.main.ClientConnector;
 import java.io.IOException;
 
 import static com.alexkekiy.common.utilites.JsonSerializer.toJson;
-import static com.alexkekiy.server.ServerMessaging.readRequest;
 import static com.alexkekiy.server.main.App.log;
+import static com.alexkekiy.server.util.ServerMessaging.readRequest;
 @Deprecated
 public class ThreadRequestReader implements Runnable{
     private final ClientConnector client;

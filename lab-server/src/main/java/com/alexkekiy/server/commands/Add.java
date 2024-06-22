@@ -4,7 +4,6 @@ import com.alexkekiy.common.data.Executable;
 import com.alexkekiy.common.data.Response;
 import com.alexkekiy.common.utilites.CommandType;
 import com.alexkekiy.server.data.entities.SpaceMarineEntity;
-import com.alexkekiy.server.data.repositories.SpaceMarineRepository;
 import com.alexkekiy.server.util.ServerCommand;
 
 public class Add extends ServerCommand implements Executable {
@@ -26,7 +25,7 @@ public class Add extends ServerCommand implements Executable {
         Response resp = super.calling();
         spm.setOwner(getUser());
         getCollectionRepository().add(spm);
-        SpaceMarineRepository.getSpaceMarineRepository().add(spm);
+        getSpaceMarineRepository().add(spm);
         return resp;
 
     }

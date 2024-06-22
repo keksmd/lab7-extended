@@ -9,9 +9,9 @@ import com.alexkekiy.common.data.*;
 import com.alexkekiy.common.exceptions.NoAccountFounded;
 import com.alexkekiy.common.utilites.CommandType;
 import com.alexkekiy.server.data.entities.AccountEntity;
+import com.alexkekiy.server.data.repositories.CollectionRepository;
 import com.alexkekiy.server.data.repositories.ServerAccountRepository;
 import com.alexkekiy.server.data.repositories.SpaceMarineRepository;
-import com.alexkekiy.server.main.managers.CollectionRepository;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -37,6 +37,7 @@ public class ServerCommand implements Executable {
 
     public ServerCommand() {
     }
+
 
     public Response execute(CollectionRepository collectionRepository, ServerAccountRepository serverAccountRepository, SpaceMarineRepository spaceMarineRepository){
         this.collectionRepository = collectionRepository;

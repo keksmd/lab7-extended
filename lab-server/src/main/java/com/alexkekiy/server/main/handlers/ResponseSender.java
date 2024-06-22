@@ -5,7 +5,7 @@ import com.alexkekiy.server.main.ClientConnector;
 
 import java.io.IOException;
 
-import static com.alexkekiy.server.ServerMessaging.sendResponse;
+import static com.alexkekiy.server.util.ServerMessaging.sendResponse;
 
 /**
  * класс задания отправки сообщения,используется с Executor - ом

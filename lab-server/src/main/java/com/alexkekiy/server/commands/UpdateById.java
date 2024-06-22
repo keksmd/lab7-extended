@@ -5,7 +5,6 @@ import com.alexkekiy.common.data.Executable;
 import com.alexkekiy.common.data.Response;
 import com.alexkekiy.common.utilites.CommandType;
 import com.alexkekiy.server.data.entities.SpaceMarineEntity;
-import com.alexkekiy.server.data.repositories.SpaceMarineRepository;
 import com.alexkekiy.server.util.ServerCommand;
 
 public class UpdateById extends ServerCommand implements Executable {
@@ -33,7 +32,7 @@ public class UpdateById extends ServerCommand implements Executable {
                 if (w.getOwner().equals(getUser())) {
                     SpaceMarineEntity spm = getCollectionRepository().getCollectionStream().filter(x -> x.getId() == Integer.parseInt(this.getValue())).findFirst().get();
                     spm.update(this.getArgs());
-                    SpaceMarineRepository.getSpaceMarineRepository().update(spm);
+                    getSpaceMarineRepository().update(spm);
                     resp.addMessage("Объект успешно обновлен");
                 } else {
                     resp.addMessage("Объект с этим id принадлежит не вам");

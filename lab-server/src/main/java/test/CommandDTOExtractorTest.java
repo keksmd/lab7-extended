@@ -2,7 +2,7 @@ package test;
 
 import com.alexkekiy.server.commands.Add;
 import com.alexkekiy.server.commands.Help;
-import com.alexkekiy.server.util.CommandExtractorService;
+import com.alexkekiy.server.main.services.CommandExtractorService;
 import lombok.SneakyThrows;
 import org.junit.Before;
 import org.junit.Test;

@@ -5,8 +5,8 @@ import com.alexkekiy.common.data.Request;
 import com.alexkekiy.common.data.Response;
 import com.alexkekiy.server.main.handlers.RequestReader;
 import com.alexkekiy.server.main.handlers.ResponseSender;
-import com.alexkekiy.server.main.managers.ClientManager;
-import com.alexkekiy.server.util.CommandExtractorService;
+import com.alexkekiy.server.main.services.CommandExtractorService;
+import com.alexkekiy.server.main.services.RequestHandlerService;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -36,16 +36,16 @@ public class ClientConnector extends Thread {
     @Getter
     private Selector selector;
     @Getter
-    private final ClientManager clientManager;
+    private final Client client;
     @Getter
     @Setter
     SocketChannel channel;
 
-    public ClientConnector(Selector selector, RequestHandlerService requestHandlerService, CommandExtractorService commandExtractorService, SocketChannel socketChannel,ClientManager clientManager) {
+    public ClientConnector(Selector selector, RequestHandlerService requestHandlerService, CommandExtractorService commandExtractorService, SocketChannel socketChannel, Client client) {
         this.selector = selector;
         this.requestHandlerService = requestHandlerService;
         this.commandExtractorService = commandExtractorService;
-       this.clientManager = clientManager;
+       this.client = client;
        this.channel = socketChannel;
 
     }
@@ -55,7 +55,7 @@ public class ClientConnector extends Thread {
      * и сервер
      */
     public Response setCommands() {
-        this.clientManager.setFirstMessageFromClient(false);
+        this.client.setFirstMessageFromClient(false);
         StringBuilder sb = new StringBuilder();
         commandExtractorService.nameToHandleMap.
                 forEach((name,functionStringToCommand) -> sb.

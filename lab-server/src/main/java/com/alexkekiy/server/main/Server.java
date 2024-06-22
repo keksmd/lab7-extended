@@ -1,8 +1,9 @@
 package com.alexkekiy.server.main;
 
-import com.alexkekiy.server.main.managers.ClientManager;
-import com.alexkekiy.server.main.managers.CollectionRepository;
-import com.alexkekiy.server.util.CommandExtractorService;
+import com.alexkekiy.server.data.repositories.CollectionRepository;
+import com.alexkekiy.server.main.services.AuthService;
+import com.alexkekiy.server.main.services.CommandExtractorService;
+import com.alexkekiy.server.main.services.RequestHandlerService;
 import jakarta.annotation.PostConstruct;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,7 @@ public class Server implements Runnable {
     private void handleAcception() throws IOException {
         SocketChannel clientChannel = serverSocketChannel.accept();
         Selector oneCleintSelector = Selector.open();
-        ClientConnector clientConnector = new ClientConnector(oneCleintSelector,requestHandlerService, commandExtractorService,clientChannel,new ClientManager(authService));
+        ClientConnector clientConnector = new ClientConnector(oneCleintSelector,requestHandlerService, commandExtractorService,clientChannel,new Client(authService));
 
         clientConnector.getChannel().configureBlocking(false);
         clientConnector.getChannel().register(oneCleintSelector, OP_READ | SelectionKey.OP_WRITE);

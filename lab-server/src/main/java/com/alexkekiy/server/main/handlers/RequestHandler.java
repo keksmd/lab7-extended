@@ -3,12 +3,12 @@ package com.alexkekiy.server.main.handlers;
 import com.alexkekiy.common.data.Request;
 import com.alexkekiy.common.data.Response;
 import com.alexkekiy.common.exceptions.NoAccountFounded;
+import com.alexkekiy.server.data.repositories.CollectionRepository;
 import com.alexkekiy.server.data.repositories.ServerAccountRepository;
 import com.alexkekiy.server.data.repositories.SpaceMarineRepository;
 import com.alexkekiy.server.exceptions.InvalidPassword;
 import com.alexkekiy.server.main.ClientConnector;
-import com.alexkekiy.server.main.managers.CollectionRepository;
-import com.alexkekiy.server.util.CommandExtractorService;
+import com.alexkekiy.server.main.services.CommandExtractorService;
 import com.alexkekiy.server.util.ServerCommand;
 import org.jetbrains.annotations.NotNull;
 
@@ -46,7 +46,7 @@ public class RequestHandler implements Callable<Optional<Response>> {
 
     @Override
     public Optional<Response> call() {
-            if (request.getMessages().get(0).equals("commands") && connector.getClientManager().isFirstMessageFromClient()) {
+            if (request.getMessages().get(0).equals("commands") && connector.getClient().isFirstMessageFromClient()) {
                 return Optional.of(connector.setCommands());
             } else {
                 try {
@@ -55,7 +55,7 @@ public class RequestHandler implements Callable<Optional<Response>> {
                     System.out.printf("команда %s выполнена%n", request.getCommandToExecute().getName());
 
                     try {
-                        connector.getClientManager().checkAnswer(response, request);
+                        connector.getClient().checkAnswer(response, request);
                     } catch (NoAccountFounded e) {
                         response.setSuccess(false);
                         response.setMessages(Stream.of("Аккаунт не найден").collect(Collectors.toCollection(ArrayList::new)));

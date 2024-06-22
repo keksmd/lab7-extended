@@ -4,7 +4,6 @@ package com.alexkekiy.server.commands;
 import com.alexkekiy.common.data.Executable;
 import com.alexkekiy.common.data.Response;
 import com.alexkekiy.common.utilites.CommandType;
-import com.alexkekiy.server.data.repositories.SpaceMarineRepository;
 import com.alexkekiy.server.util.ServerCommand;
 
 public class RemoveById extends ServerCommand implements Executable {
@@ -31,7 +30,7 @@ public class RemoveById extends ServerCommand implements Executable {
             getCollectionRepository().getCollectionStream().filter(w -> String.valueOf(w.getId()).equals(this.getValue())).forEach(w -> {
                 if (w.getOwner().equals(getUser())) {
                     getCollectionRepository().remove(w);
-                    SpaceMarineRepository.getSpaceMarineRepository().remove(w);
+                    getSpaceMarineRepository().remove(w);
                     resp.addMessage("Объект успешно удален");
                 } else {
                     resp.addMessage("Объект с этим id принадлежит не вам");

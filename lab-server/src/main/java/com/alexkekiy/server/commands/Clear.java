@@ -4,7 +4,6 @@ package com.alexkekiy.server.commands;
 import com.alexkekiy.common.data.Executable;
 import com.alexkekiy.common.data.Response;
 import com.alexkekiy.common.utilites.CommandType;
-import com.alexkekiy.server.data.repositories.SpaceMarineRepository;
 import com.alexkekiy.server.util.ServerCommand;
 
 public class Clear extends ServerCommand implements Executable {
@@ -32,7 +31,7 @@ public class Clear extends ServerCommand implements Executable {
         getCollectionRepository().getCollectionStream().forEach(w -> {
             if (w.getOwner().equals(getUser())) {
                 getCollectionRepository().remove(w);
-                SpaceMarineRepository.getSpaceMarineRepository().remove(w);
+                getSpaceMarineRepository().remove(w);
             }
         });
         return resp;

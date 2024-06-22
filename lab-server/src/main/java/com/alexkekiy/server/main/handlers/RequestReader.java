@@ -8,8 +8,8 @@ import java.io.IOException;
 import java.util.concurrent.RecursiveAction;
 
 import static com.alexkekiy.common.utilites.JsonSerializer.toJson;
-import static com.alexkekiy.server.ServerMessaging.readRequest;
 import static com.alexkekiy.server.main.App.log;
+import static com.alexkekiy.server.util.ServerMessaging.readRequest;
 
 /**
  * класс,считывающий запросы c помощью Executor-а
