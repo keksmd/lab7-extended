@@ -32,7 +32,7 @@ public class ServerAccountDao implements Dao<AccountEntity> {
     @Override
     public void commit() {
         if (em.getTransaction().isActive()) {
-            em.getTransaction().rollback();
+            em.getTransaction().commit();
         }
 
     }
@@ -65,7 +65,7 @@ public class ServerAccountDao implements Dao<AccountEntity> {
     }
     @Override
     public void delete(AccountEntity serverAccount) {
-        em.detach(serverAccount);
+        em.remove(serverAccount);
     }
     @Override
     public void update(AccountEntity serverAccount) {

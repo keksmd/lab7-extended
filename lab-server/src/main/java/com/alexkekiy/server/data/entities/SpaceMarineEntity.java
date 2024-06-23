@@ -1,13 +1,13 @@
 package com.alexkekiy.server.data.entities;
 
 
-import com.alexkekiy.server.util.DBConnection;
 import com.sun.istack.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -21,8 +21,8 @@ import static java.time.LocalDateTime.now;
 @Getter
 @Entity
 @Builder
-
 @Table(name = "spacemarines")
+@DynamicInsert
 
 /**
  * основной хранимый entity-дата-класс
@@ -34,10 +34,12 @@ public class SpaceMarineEntity implements Comparable<SpaceMarineEntity>, Seriali
      * Значение этого поля должно быть уникальным,
      * Значение этого поля должно генерироваться автоматически
      */
+
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "my_sequence_generator")
+    @SequenceGenerator(name = "my_sequence_generator", sequenceName = "my_sequence_name", allocationSize = 1)
+    private long id;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private AccountEntity owner;
@@ -109,8 +111,7 @@ public class SpaceMarineEntity implements Comparable<SpaceMarineEntity>, Seriali
     @NotNull
     private ChapterEntity chapterEntity;
 
-    SpaceMarineEntity(int id, AccountEntity acc, java.lang.String name, CoordinatesEntity coordinatesEntity, java.time.LocalDateTime creationDate, long health, java.lang.Boolean loyal, float height, com.alexkekiy.server.data.entities.Weapon weaponType, ChapterEntity chapterEntity) {
-        this.id = id;
+    SpaceMarineEntity(AccountEntity acc, java.lang.String name, CoordinatesEntity coordinatesEntity, java.time.LocalDateTime creationDate, long health, java.lang.Boolean loyal, float height, com.alexkekiy.server.data.entities.Weapon weaponType, ChapterEntity chapterEntity) {
         this.health = health;
         this.chapterEntity = chapterEntity;
         this.loyal = loyal;
@@ -124,6 +125,23 @@ public class SpaceMarineEntity implements Comparable<SpaceMarineEntity>, Seriali
 
     }
 
+    SpaceMarineEntity(long id, AccountEntity owner, String name, CoordinatesEntity coordinatesEntity, LocalDateTime localDateTime, long health, Boolean loyal, float height, Weapon weaponType, ChapterEntity chapterEntity) {
+
+
+        this.id = id;
+        this.health = health;
+        this.chapterEntity = chapterEntity;
+        this.loyal = loyal;
+        this.coordinatesEntity = coordinatesEntity;
+        this.owner = owner;
+        this.weaponType = weaponType;
+        this.name = name;
+        this.height = height;
+        this.creationDate = localDateTime;
+
+
+    }
+
     public SpaceMarineEntity(String n, CoordinatesEntity c, long h, Boolean l, float height, Weapon gun, ChapterEntity ch) {
         super();
         this.name = n;
@@ -133,7 +151,6 @@ public class SpaceMarineEntity implements Comparable<SpaceMarineEntity>, Seriali
         this.weaponType = gun;
         this.chapterEntity = ch;
         this.height = height;
-        this.creationDate = now();
     }
 
     public SpaceMarineEntity() {
@@ -156,7 +173,7 @@ public class SpaceMarineEntity implements Comparable<SpaceMarineEntity>, Seriali
         spmBuilder.chapterEntity = (new ChapterEntity(
                 (String) readValidType("s", args[7]),
                 (String) readValidType("s", args[8])));
-        spmBuilder.id = Math.toIntExact(DBConnection.getDBConnection().newId());
+        //spmBuilder.id = Math.toIntExact(DBConnection.getDBConnection().newId());
         return spmBuilder.build();
     }
 

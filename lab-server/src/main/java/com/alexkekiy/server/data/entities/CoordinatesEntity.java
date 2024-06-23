@@ -1,16 +1,17 @@
 package com.alexkekiy.server.data.entities;
 
 import com.alexkekiy.server.exceptions.IncorrectDataInput;
-import com.alexkekiy.server.util.DBConnection;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Getter
 @Entity
+@DynamicInsert
 @Table(name = "coordinates")
 public class CoordinatesEntity {
     @Column
@@ -21,13 +22,16 @@ public class CoordinatesEntity {
     private Float y; //Значение поля должно быть больше -354, Поле не может быть null
     @Setter
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "my_sequence_generator")
+    @SequenceGenerator(name = "my_sequence_generator", sequenceName = "my_sequence_name", allocationSize = 1)
+
     private Long id;
 
     public CoordinatesEntity(Long x, Float y) {
         this.setX(x);
         this.setY(y);
-        this.id = DBConnection.getDBConnection().newId();
+        //this.id = DBConnection.getDBConnection().newId();
     }
 
     public CoordinatesEntity() {

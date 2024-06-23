@@ -48,13 +48,15 @@ public class SpaceMarineDao implements Dao<SpaceMarineEntity> {
     @Override
     public void save(SpaceMarineEntity spm) {
         entityManager.persist(spm);
+        entityManager.flush();
     }
 
     @Override
     public Optional<SpaceMarineEntity> get(long id) {
+        entityManager.flush();
         Optional<SpaceMarineEntity> spm;
         try {
-            spm = Optional.ofNullable(entityManager.find(SpaceMarineEntity.class, id));
+            spm = Optional.of(entityManager.find(SpaceMarineEntity.class, id));
         } catch (Exception e) {
             spm = Optional.empty();
         }
@@ -63,8 +65,9 @@ public class SpaceMarineDao implements Dao<SpaceMarineEntity> {
 
     @Override
     public void commit() {
+        entityManager.flush();
         if (entityManager.getTransaction().isActive()) {
-            entityManager.getTransaction().rollback();
+            entityManager.getTransaction().commit();
         }
     }
 
@@ -84,11 +87,14 @@ public class SpaceMarineDao implements Dao<SpaceMarineEntity> {
 
     @Override
     public void delete(SpaceMarineEntity spm) {
-        entityManager.detach(spm);
+        entityManager.remove(spm);
+        entityManager.flush();
     }
 
     @Override
     public void update(SpaceMarineEntity spm) {
+        entityManager.flush();
         entityManager.merge(spm);
+        entityManager.flush();
     }
 }

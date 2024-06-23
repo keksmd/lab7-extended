@@ -1,14 +1,15 @@
 package com.alexkekiy.server.data.entities;
 
-import com.alexkekiy.server.util.DBConnection;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
 @Setter
 @Getter
 @Entity
+@DynamicInsert
 @Table(name = "chapters")
 
 public class ChapterEntity {
@@ -17,14 +18,17 @@ public class ChapterEntity {
     private String parentLegion;
     private String world; //Поле не может быть null
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "my_sequence_generator")
+    @SequenceGenerator(name = "my_sequence_generator", sequenceName = "my_sequence_name", allocationSize = 1)
+
     private Long id;
 
     public ChapterEntity(String n, String w) {
         world = w;
         name = n;
         this.parentLegion = "";
-        this.id = DBConnection.getDBConnection().newId();
+        //this.id = DBConnection.getDBConnection().newId();
     }
 
     public ChapterEntity() {

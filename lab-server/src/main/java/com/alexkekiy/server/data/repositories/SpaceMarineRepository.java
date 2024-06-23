@@ -1,9 +1,7 @@
 package com.alexkekiy.server.data.repositories;
 
-import com.alexkekiy.server.data.dao.JBDCSpaceMarineDao;
 import com.alexkekiy.server.data.dao.SpaceMarineDao;
 import com.alexkekiy.server.data.entities.SpaceMarineEntity;
-import com.alexkekiy.server.util.DBConnection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,13 +12,13 @@ import java.util.List;
 @Repository
 public class SpaceMarineRepository extends DBRepository<SpaceMarineEntity> {
     private final SpaceMarineDao spmDao;
-    private final JBDCSpaceMarineDao jbdcSpaceMarineDao;
+
     @Autowired
 
     SpaceMarineRepository(SpaceMarineDao spmDao) {
         super(spmDao);
         this.spmDao = spmDao;
-        this.jbdcSpaceMarineDao = new JBDCSpaceMarineDao(DBConnection.getDBConnection());
+
     }
 
     @Transactional
@@ -66,7 +64,7 @@ public class SpaceMarineRepository extends DBRepository<SpaceMarineEntity> {
         }
     }
 
-    @Transactional
+    /*@Transactional
     @Override
     public void add(SpaceMarineEntity spaceMarine) {
         jbdcSpaceMarineDao.save(spaceMarine);
@@ -78,6 +76,8 @@ public class SpaceMarineRepository extends DBRepository<SpaceMarineEntity> {
     public void remove(SpaceMarineEntity spaceMarine) {
         jbdcSpaceMarineDao.delete(spaceMarine);
     }
+
+     */
 
 
 }
